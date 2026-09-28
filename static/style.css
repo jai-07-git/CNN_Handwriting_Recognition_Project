@@ -1,0 +1,129 @@
+:root {
+  --ink: #1a1a2e;
+  --accent: #4f46e5;
+  --accent-light: #eef2ff;
+  --border: #e2e2ea;
+  --bg: #f7f7fb;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+header {
+  padding: 28px 24px 12px;
+  text-align: center;
+}
+
+header h1 { margin: 0 0 6px; font-size: 1.6rem; }
+.subtitle { margin: 0; color: #555; }
+
+main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 16px 24px 48px;
+  display: grid;
+  gap: 20px;
+}
+
+.panel {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.option-group {
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.option-label { font-weight: 600; margin-right: 4px; }
+
+#canvas-wrap { text-align: center; }
+
+#draw-canvas {
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  background: #fff;
+  touch-action: none;
+  cursor: crosshair;
+}
+
+.canvas-actions { margin-top: 10px; }
+
+#upload-wrap { text-align: center; }
+#upload-preview {
+  max-width: 220px;
+  max-height: 220px;
+  margin-top: 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+button {
+  font-size: 0.95rem;
+  padding: 9px 18px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: #fff;
+  cursor: pointer;
+}
+
+button.primary {
+  display: block;
+  margin: 16px auto 0;
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  font-weight: 600;
+  padding: 11px 28px;
+}
+
+button:hover { filter: brightness(0.97); }
+
+.predicted { color: var(--accent); font-size: 1.4rem; }
+
+.bars { margin-top: 12px; display: grid; gap: 8px; }
+
+.bar-row {
+  display: grid;
+  grid-template-columns: 40px 1fr 52px;
+  align-items: center;
+  gap: 10px;
+}
+
+.bar-track {
+  background: var(--accent-light);
+  border-radius: 6px;
+  height: 14px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  background: var(--accent);
+}
+
+.bar-pct { text-align: right; font-variant-numeric: tabular-nums; }
+.muted { color: #888; }
+.error { color: #c0392b; }
+
+table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--border); }
+th { color: #555; font-weight: 600; }
+
+footer {
+  text-align: center;
+  color: #888;
+  font-size: 0.85rem;
+  padding: 12px;
+}
