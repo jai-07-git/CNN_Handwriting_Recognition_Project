@@ -1,7 +1,5 @@
 __pycache__/
 *.pyc
-models/*.keras
-models/*.h5
 predictions.db
 confusion_matrix_*.png
 .venv/

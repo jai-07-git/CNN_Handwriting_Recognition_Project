@@ -1,7 +1,0 @@
-tensorflow==2.16.1
-tensorflow-datasets==4.9.4
-flask==3.0.3
-numpy==1.26.4
-opencv-python==4.10.0.84
-pillow==10.4.0
-scikit-learn==1.5.1
