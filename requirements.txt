@@ -4,3 +4,4 @@ tensorflow==2.16.1
 protobuf==4.25.3
 numpy
 Pillow
+opencv-python-headless=4.8.1.78
