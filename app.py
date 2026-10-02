@@ -23,6 +23,9 @@ from src.preprocessing import data_url_to_image, preprocess_image
 
 
 app = Flask(__name__)
+@app.route("/health")
+def health():
+    return jsonify({"status": "ok"})
 
 _models = {}  # lazy-loaded, cached Keras models
 
