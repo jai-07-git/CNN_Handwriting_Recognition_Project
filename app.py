@@ -11,7 +11,6 @@ Then open http://127.0.0.1:5000
 
 import os
 import time
-
 import numpy as np
 import tensorflow as tf
 from flask import Flask, jsonify, render_template, request
@@ -23,6 +22,7 @@ from src.preprocessing import data_url_to_image, preprocess_image
 
 
 app = Flask(__name__)
+init_db()
 @app.route("/health")
 def health():
     return jsonify({"status": "ok"})

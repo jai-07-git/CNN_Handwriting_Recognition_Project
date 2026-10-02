@@ -1,12 +1,9 @@
-"""
-SQLite persistence for prediction history (class, confidence, Top-3, inference time),
-per the project's "rich output and storage" objective.
-"""
-import json
 import sqlite3
-from datetime import datetime
+import os
+import json
 
-from config import DB_PATH
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.path.join(BASE_DIR, "predictions.db")
 
 
 def get_connection():
@@ -17,57 +14,88 @@ def get_connection():
 
 def init_db():
     conn = get_connection()
-    conn.execute(
-        """
+
+    conn.execute("""
         CREATE TABLE IF NOT EXISTS predictions (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            timestamp TEXT NOT NULL,
             mode TEXT NOT NULL,
             predicted_class TEXT NOT NULL,
             confidence REAL NOT NULL,
-            top3 TEXT NOT NULL,
-            inference_time_ms REAL NOT NULL
+            top3 TEXT,
+            inference_time_ms REAL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
-        """
-    )
+    """)
+
     conn.commit()
     conn.close()
 
 
-def log_prediction(mode, predicted_class, confidence, top3, inference_time_ms):
+def log_prediction(
+    mode,
+    predicted_class,
+    confidence,
+    top3,
+    inference_time_ms
+):
     conn = get_connection()
+
     conn.execute(
-        """INSERT INTO predictions
-           (timestamp, mode, predicted_class, confidence, top3, inference_time_ms)
-           VALUES (?, ?, ?, ?, ?, ?)""",
+        """
+        INSERT INTO predictions (
+            mode,
+            predicted_class,
+            confidence,
+            top3,
+            inference_time_ms
+        )
+        VALUES (?, ?, ?, ?, ?)
+        """,
         (
-            datetime.utcnow().isoformat(),
             mode,
             predicted_class,
             confidence,
             json.dumps(top3),
-            inference_time_ms,
-        ),
+            inference_time_ms
+        )
     )
+
     conn.commit()
     conn.close()
 
 
 def get_history(limit=20):
     conn = get_connection()
+
     rows = conn.execute(
-        "SELECT * FROM predictions ORDER BY id DESC LIMIT ?", (limit,)
+        """
+        SELECT
+            id,
+            mode,
+            predicted_class,
+            confidence,
+            top3,
+            inference_time_ms,
+            created_at
+        FROM predictions
+        ORDER BY id DESC
+        LIMIT ?
+        """,
+        (limit,)
     ).fetchall()
+
     conn.close()
-    return [
-        {
-            "id": r["id"],
-            "timestamp": r["timestamp"],
-            "mode": r["mode"],
-            "predicted_class": r["predicted_class"],
-            "confidence": r["confidence"],
-            "top3": json.loads(r["top3"]),
-            "inference_time_ms": r["inference_time_ms"],
-        }
-        for r in rows
-    ]
+
+    history = []
+
+    for row in rows:
+        item = dict(row)
+
+        try:
+            item["top3"] = json.loads(item["top3"])
+        except (TypeError, json.JSONDecodeError):
+            item["top3"] = []
+
+        history.append(item)
+
+    return history
