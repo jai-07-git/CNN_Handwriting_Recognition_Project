@@ -7,19 +7,28 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+  <nav class="topnav">
+    <span class="brand">CNN Handwriting Recognition</span>
+    <div class="user-chip">
+      {% if user.picture %}<img src="{{ user.picture }}" alt="" class="avatar">{% endif %}
+      <span>{{ user.name }}</span>
+      <a href="{{ url_for('auth.logout') }}" class="logout-link">Sign out</a>
+    </div>
+  </nav>
+
   <header>
-    <h1>CNN-Driven Handwritten Digits &amp; Character Recognition</h1>
-    <p class="subtitle">Draw or upload a digit (0–9) or letter (A–Z) and get a live prediction.</p>
+    <h1>Draw, upload, or recognize a whole document</h1>
+    <p class="subtitle">Everything below is private to your account — only you can see your prediction history.</p>
   </header>
 
   <main>
     <section class="panel controls">
+      <h2>Single character</h2>
       <div class="option-group">
         <span class="option-label">Recognize:</span>
         <label><input type="radio" name="mode" value="digit" checked> Digit (0–9)</label>
         <label><input type="radio" name="mode" value="char"> Character (A–Z)</label>
       </div>
-
       <div class="option-group">
         <span class="option-label">Input:</span>
         <label><input type="radio" name="source" value="draw" checked> Draw</label>
@@ -28,9 +37,7 @@
 
       <div id="canvas-wrap">
         <canvas id="draw-canvas" width="280" height="280"></canvas>
-        <div class="canvas-actions">
-          <button id="clear-btn" type="button">Clear</button>
-        </div>
+        <div class="canvas-actions"><button id="clear-btn" type="button">Clear</button></div>
       </div>
 
       <div id="upload-wrap" style="display:none;">
@@ -46,12 +53,37 @@
     </section>
 
     <section class="panel">
-      <h2>Recent predictions</h2>
+      <h2>Your recent single-character predictions</h2>
       <table>
-        <thead>
-          <tr><th>Time</th><th>Mode</th><th>Prediction</th><th>Confidence</th><th>Inference</th></tr>
-        </thead>
+        <thead><tr><th>Time</th><th>Mode</th><th>Prediction</th><th>Confidence</th><th>Inference</th></tr></thead>
         <tbody id="history-body"></tbody>
+      </table>
+    </section>
+
+    <section class="panel controls">
+      <h2>Whole document (photo or PDF)</h2>
+      <p class="muted">Upload a photo or PDF containing several digits and/or letters — each character is detected and recognized automatically.</p>
+
+      <div class="option-group">
+        <span class="option-label">Mode:</span>
+        <label><input type="radio" name="doc-mode" value="mixed" checked> Mixed (auto-detect)</label>
+        <label><input type="radio" name="doc-mode" value="digit"> Digits only</label>
+        <label><input type="radio" name="doc-mode" value="char"> Characters only</label>
+      </div>
+
+      <input type="file" id="doc-input" accept=".pdf,.png,.jpg,.jpeg,.bmp,.webp">
+      <button id="doc-predict-btn" type="button" class="primary">Recognize document</button>
+    </section>
+
+    <section class="panel" id="doc-results">
+      <p class="muted">Upload a photo or PDF, then click Recognize document.</p>
+    </section>
+
+    <section class="panel">
+      <h2>Your recent document predictions</h2>
+      <table>
+        <thead><tr><th>Time</th><th>File</th><th>Type</th><th>Mode</th><th>Pages</th><th>Chars</th><th>Avg. confidence</th></tr></thead>
+        <tbody id="doc-history-body"></tbody>
       </table>
     </section>
   </main>

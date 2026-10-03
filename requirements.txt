@@ -6,3 +6,23 @@ numpy
 Pillow
 opencv-python-headless==4.8.1.78
 opencv-python==4.8.1.78
+
+# Version ranges instead of exact pins, so pip can resolve a build that's
+# actually available for whatever Python version you have (3.11-3.13+).
+# tensorflow==2.16.1 only ships wheels for Python 3.9-3.11, which is what
+# caused "No matching distribution found" on newer Python installs.
+tensorflow>=2.16
+tensorflow-datasets>=4.9
+flask>=3.0,<4.0
+gunicorn>=22.0,<23.0
+numpy>=1.26
+opencv-python-headless>=4.9
+pillow>=10.0
+scikit-learn>=1.4
+matplotlib>=3.8
+
+# --- Added for Google login, per-user privacy, and document (PDF/photo) recognition ---
+flask-login>=0.6,<0.7
+authlib>=1.3,<2.0
+python-dotenv>=1.0
+pymupdf>=1.24
