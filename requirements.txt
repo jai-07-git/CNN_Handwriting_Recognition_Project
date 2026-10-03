@@ -4,8 +4,7 @@ tensorflow==2.16.1
 protobuf==4.25.3
 numpy
 Pillow
-opencv-python-headless==4.8.1.78
-opencv-python==4.8.1.78
+
 
 # Version ranges instead of exact pins, so pip can resolve a build that's
 # actually available for whatever Python version you have (3.11-3.13+).
