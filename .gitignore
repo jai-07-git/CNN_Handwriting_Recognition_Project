@@ -5,3 +5,39 @@ confusion_matrix_*.png
 .venv/
 venv/
 *.egg-info/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Environment / secrets
+.env
+*.env
+
+# Datasets (large; download when training)
+data/
+datasets/
+*.csv
+*.gz
+*.idx3-ubyte
+*.idx1-ubyte
+
+# Training artifacts (keep the final deployed model, e.g. model/*.h5 or *.keras)
+logs/
+checkpoints/
+runs/
+*.log
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
